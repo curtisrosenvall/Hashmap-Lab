@@ -1,51 +1,37 @@
 #pragma once
 
 #include <string>
-
+#include <vector>
 #include "HashmapInterface.h"
+
+
+struct Node {
+    std::string key;
+    int value;
+    bool isDeleted;
+
+    Node(const std::string &key, int value) : key(key), value(value), isDeleted(false) {}
+};
 
 class Hashmap : public HashmapInterface {
 private:
-    // put any private data members or methods here
+    std::vector<Node *> table;
+    size_t numElements;
+
+    size_t hash(const std::string &key) const;
+    void rehash();
 
 public:
-    Hashmap() {
-        // implement your constructor here
-    }
+    Hashmap();
+    ~Hashmap() override;
 
-    ~Hashmap() override {
-        // implement your destructor here
-    }
+    void insert(std::string key, int value) override;
+    bool contains(const std::string &key) const override;
+    int get(const std::string &key) const override;
+    int &operator[](const std::string &key) override;
+    bool remove(const std::string &key) override;
+    void clear() override;
 
-    void insert(std::string key, int value) override {
-        // implement insert here
-    }
-
-    bool contains(const std::string &key) const override {
-        // implement contains here
-    }
-
-    int get(const std::string &key) const override {
-        // implement get here
-    }
-
-    int &operator[](const std::string& key) override {
-        // implement operator[] here
-    }
-
-    bool remove(const std::string &key) override {
-        // implement remove here
-    }
-
-    void clear() override {
-        // implement clear here
-    }
-    
-    int numBuckets() const override {
-        // implement numBuckets here
-    }
-
-    int size() const override {
-        // implement size here
-    }
+    int numBuckets() const override;
+    int size() const override;
 };
